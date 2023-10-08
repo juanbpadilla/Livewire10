@@ -1,24 +1,19 @@
 <?php
 
 use App\Livewire\Articles;
+use App\Livewire\ArticleForm;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 //Route::get('/', function () {
 //    return view('welcome');
 //});
 
-Route::get('/', Articles::class);
+Route::get('/', Articles::class)->name('articles.index');
+
+Route::get('/blog/crear', ArticleForm::class)
+    ->name('articles.create')
+    ->middleware('auth');
 
 Route::middleware([
     'auth:sanctum',

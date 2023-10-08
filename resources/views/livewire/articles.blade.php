@@ -1,10 +1,19 @@
-<div>
-    <div class="bg-white dark:bg-gray-800 p-2">
-        <h1>Listado de artículos</h1>
-        <ul>
-            @foreach($articles as $article)
-                <li>{{ $article->title }}</li>
-            @endforeach
-        </ul>
-    </div>
+<div  class="p-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        Listado de artículos
+    </h2>
+
+    <x-label class="py-4">
+        <a href="{{ route('articles.create') }}">{{ __('Create') }}</a>
+    </x-label>
+    <x-input type="search"
+        wire:model.live="search"
+        type="search"
+        placeholder="Buscar..."
+    />
+    <ul class="py-4">
+        @foreach($articles as $article)
+            <li>{{ $article->title }}</li>
+        @endforeach
+    </ul>
 </div>
