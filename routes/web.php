@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Articles;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+Route::get('/', Articles::class);
 
 Route::middleware([
     'auth:sanctum',
