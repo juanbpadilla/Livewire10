@@ -6,14 +6,18 @@
     <x-label class="py-4">
         <a href="{{ route('articles.create') }}">{{ __('Create') }}</a>
     </x-label>
-    <x-input type="search"
+-    <x-input type="search"
         wire:model.live="search"
         type="search"
         placeholder="Buscar..."
     />
     <ul class="py-4">
         @foreach($articles as $article)
-            <li>{{ $article->title }}</li>
+            <li>
+                <a href="{{ route('articles.show', $article) }}">
+                    {{ $article->title }}
+                </a>
+            </li>
         @endforeach
     </ul>
 </div>

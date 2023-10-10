@@ -2,6 +2,7 @@
 
 use App\Livewire\Articles;
 use App\Livewire\ArticleForm;
+use App\Livewire\ArticleShow;
 use Illuminate\Support\Facades\Route;
 
 
@@ -9,11 +10,15 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Route::get('/', Articles::class)->name('articles.index');
+Route::get('/', Articles::class)
+    ->name('articles.index');
 
 Route::get('/blog/crear', ArticleForm::class)
     ->name('articles.create')
     ->middleware('auth');
+
+Route::get('/blog/{article}', ArticleShow::class)
+    ->name('articles.show');
 
 Route::middleware([
     'auth:sanctum',
