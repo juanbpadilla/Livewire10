@@ -16,13 +16,13 @@
             <x-slot name="form">
                 <div class="col-span-6 sm:col-span-4">
                     <x-label for="title" :value="__('Title')"/>
-                    <x-input wire:model.live="title" id="title" class="mt-1 block w-full" type="text" />
-                    <x-input-error for="title" class="mt-2" />
+                    <x-input wire:model.live="article.title" id="title" class="mt-1 block w-full" type="text" />
+                    <x-input-error for="article.title" class="mt-2" />
                 </div>
                 <div class="col-span-6 sm:col-span-4">
                     <x-label for="content" :value="__('Content')"/>
-                    <x-input wire:model.live="content" id="content" class="mt-1 block w-full" type="text" />
-                    <x-input-error for="content" class="mt-2" />
+                    <x-input wire:model.live="article.content" id="content" class="mt-1 block w-full" type="text" />
+                    <x-input-error for="article.content" class="mt-2" />
                 </div>
                 <x-slot name="actions">
                     <x-button>

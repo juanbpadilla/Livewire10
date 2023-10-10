@@ -18,7 +18,12 @@ Route::get('/blog/crear', ArticleForm::class)
     ->middleware('auth');
 
 Route::get('/blog/{article}', ArticleShow::class)
-    ->name('articles.show');
+    ->name('articles.show')
+    ->middleware('auth');
+
+Route::get('/blog/{article}/edit', ArticleForm::class)
+    ->name('articles.edit')
+    ->middleware('auth');
 
 Route::middleware([
     'auth:sanctum',

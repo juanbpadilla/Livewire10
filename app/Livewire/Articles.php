@@ -15,6 +15,6 @@ class Articles extends Component
             'articles' => \App\Models\Article::where(
                 'title', 'like', "%{$this->search}%"
             )->latest()->get()
-        ])->layout('layouts.guest');
+        ])->layout('components.layouts.guest');
     }
 }
