@@ -3,28 +3,36 @@
 namespace App\Livewire;
 
 use App\Models\Article;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class ArticleForm extends Component
 {
     public Article $article;
 
-    protected $rules = [
-        'article.title' => ['required', 'min:4'],
-        'article.content' => ['required'],
-    ];
+    protected function rules(): array
+    {
+        return [
+            'article.title' => ['required', 'min:4'],
+            'article.slug' => [
+                'required',
+                Rule::unique('articles', 'slug')->ignore($this->article)
+            ],
+            'article.content' => ['required'],
+        ];
+    }
 
-    public function mount(Article $article)
+    public function mount(Article $article): void
     {
         $this->article = $article;
     }
 
-    public function updated($propertyName)
+    public function updated($propertyName): void
     {
         $this->validateOnly($propertyName);
     }
 
-    public function save()
+    public function save(): void
     {
         $this->validate();
 

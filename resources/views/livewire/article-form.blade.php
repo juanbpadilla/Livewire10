@@ -20,6 +20,11 @@
                     <x-input-error for="article.title" class="mt-2" />
                 </div>
                 <div class="col-span-6 sm:col-span-4">
+                    <x-label for="slug" :value="__('Slug')"/>
+                    <x-input wire:model.live="article.slug" id="slug" class="mt-1 block w-full" type="text" />
+                    <x-input-error for="article.slug" class="mt-2" />
+                </div>
+                <div class="col-span-6 sm:col-span-4">
                     <x-label for="content" :value="__('Content')"/>
                     <x-input wire:model.live="article.content" id="content" class="mt-1 block w-full" type="text" />
                     <x-input-error for="article.content" class="mt-2" />
