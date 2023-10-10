@@ -15,6 +15,11 @@
 
             <x-slot name="form">
                 <div class="col-span-6 sm:col-span-4">
+                    <x-label for="image" :value="__('Image')"/>
+                    <x-input wire:model.live="image" id="image" class="mt-1 block w-full" type="file" />
+                    <x-input-error for="image" class="mt-2" />
+                </div>
+                <div class="col-span-6 sm:col-span-4">
                     <x-label for="title" :value="__('Title')"/>
                     <x-input wire:model.live="article.title" id="title" class="mt-1 block w-full" type="text" />
                     <x-input-error for="article.title" class="mt-2" />
@@ -27,7 +32,6 @@
                 <div class="col-span-6 sm:col-span-4">
                     <x-label for="content" :value="__('Content')"/>
                     <x-html-editor wire:model.live="article.content" id="content" class="mt-1 block w-full" ></x-html-editor>
-{{--                    <x-textarea wire:model.live="article.content" id="content" class="mt-1 block w-full" />--}}
                     <x-input-error for="article.content" class="mt-2" />
                 </div>
                 <x-slot name="actions">
