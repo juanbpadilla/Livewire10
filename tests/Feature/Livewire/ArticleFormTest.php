@@ -94,7 +94,7 @@ class ArticleFormTest extends TestCase
     {
         Livewire::test('article-form')
             ->set('article.title', 'New Article')
-//            ->set('article.slug', null)
+            ->set('article.slug', null)
             ->set('article.content', 'Article content')
             ->call('save')
             ->assertHasErrors(['article.slug' => 'required'])
@@ -113,6 +113,26 @@ class ArticleFormTest extends TestCase
             ->call('save')
             ->assertHasErrors(['article.slug' => 'unique'])
             ->assertSeeHtml(__('validation.unique', ['attribute' => 'slug']));
+    }
+
+    /** @test */
+    function slug_must_only_contain_letters_numbers_dashes_and_underscores()
+    {
+        Livewire::test('article-form')
+            ->set('article.title', 'New Article')
+            ->set('article.slug', 'new-article$%^')
+            ->set('article.content', 'Article content')
+            ->call('save')
+            ->assertHasErrors(['article.slug' => 'alpha_dash'])
+            ->assertSeeHtml(__('validation.alpha_dash', ['attribute' => 'slug']));
+    }
+
+    /** @test */
+    function slug_is_generated_automatically()
+    {
+        Livewire::test('article-form')
+            ->set('article.title', 'Nuevo artículo')
+            ->assertSet('article.slug', 'nuevo-articulo');
     }
 
     /** @test */
