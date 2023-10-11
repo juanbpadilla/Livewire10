@@ -6,6 +6,8 @@ use App\Models\Article;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -52,9 +54,14 @@ class ArticleFormTest extends TestCase
     /** @test */
     function can_create_new_articles()
     {
+        Storage::fake('public');
+
+        $image = UploadedFile::fake()->image('post-image.png');
+
         $user = User::factory()->create();
 
         Livewire::actingAs($user)->test('article-form')
+            ->set('image', $image)
             ->set('article.title', 'New article')
             ->set('article.slug', 'new-article')
             ->set('article.content', 'Article content')
@@ -63,11 +70,14 @@ class ArticleFormTest extends TestCase
             ->assertRedirect(route('articles.index'));
 
         $this->assertDatabaseHas('articles', [
+            'image' => $imagePath = Storage::disk('public')->files()[0],
             'title' => 'New article',
             'slug' => 'new-article',
             'content' => 'Article content',
             'user_id' => $user->id
         ]);
+
+        Storage::disk('public')->assertExists($imagePath);
     }
 
     /** @test */
@@ -94,6 +104,34 @@ class ArticleFormTest extends TestCase
             'slug' => 'updated-slug',
             'user_id' => $user->id,
         ]);
+    }
+
+    /** @test */
+    function can_update_articles_image()
+    {
+        Storage::fake('public');
+
+        $oldImage = UploadedFile::fake()->image('old-image.png');
+
+        $oldImagePath = $oldImage->store('/', 'public');
+
+        $newImage = UploadedFile::fake()->image('new-image.png');
+
+        $article = Article::factory()->create([
+            'image' => $oldImagePath
+        ]);
+
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)->test('article-form', ['article' => $article])
+            ->set('image', $newImage)
+            ->call('save')
+            ->assertSessionHas('status')
+            ->assertRedirect(route('articles.index'));
+
+        Storage::disk('public')
+            ->assertExists($article->fresh()->image)
+            ->assertMissing($oldImagePath);
     }
 
     /** @test */
