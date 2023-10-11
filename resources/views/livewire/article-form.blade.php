@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-span-6 sm:col-span-4">
                     <x-label for="title" :value="__('Title')"/>
-                    <x-input wire:model.live="article.title" id="title" class="mt-1 block w-full" type="text" />
+                    <x-input wire:model.blur="article.title" id="title" class="mt-1 block w-full" type="text" />
                     <x-input-error for="article.title" class="mt-2" />
                 </div>
                 <div class="col-span-6 sm:col-span-4">

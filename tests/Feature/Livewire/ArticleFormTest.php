@@ -2,14 +2,13 @@
 
 namespace Tests\Feature\Livewire;
 
-use App\Models\Article;
+use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Livewire\Livewire;
+use App\Models\Article;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Livewire;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ArticleFormTest extends TestCase
 {
@@ -46,9 +45,8 @@ class ArticleFormTest extends TestCase
     {
         Livewire::test('article-form')
             ->assertSeeHtml('wire:submit="save"')
-            ->assertSeeHtml('wire:model.live="article.title"')
-            ->assertSeeHtml('wire:model.live="article.slug"')
-            ->assertSeeHtml('wire:model.live="article.content"');
+            ->assertSeeHtml('wire:model.blur="article.title"')
+            ->assertSeeHtml('wire:model.live="article.slug"');
     }
 
     /** @test */
@@ -132,6 +130,47 @@ class ArticleFormTest extends TestCase
         Storage::disk('public')
             ->assertExists($article->fresh()->image)
             ->assertMissing($oldImagePath);
+    }
+
+    /** @test */
+    function image_is_required()
+    {
+        Livewire::test('article-form')
+            ->set('article.title', 'Article title')
+            ->set('article.content', 'Article content')
+            ->call('save')
+            ->assertHasErrors(['image' => 'required'])
+            ->assertSeeHtml(__('validation.required', ['attribute' => 'image']));
+        ;
+    }
+
+    /** @test */
+    function image_field_must_be_of_type_image()
+    {
+        Livewire::test('article-form')
+            ->set('image', 'string-not-allowed')
+            ->call('save')
+            ->assertHasErrors(['image' => 'image'])
+            ->assertSeeHtml(__('validation.image', ['attribute' => 'image']));
+        ;
+    }
+
+    /** @test */
+    function image_must_be_2mb_max()
+    {
+        Storage::fake('public');
+
+        $image = UploadedFile::fake()->image('post-image.png')->size(3000);
+
+        Livewire::test('article-form')
+            ->set('image', $image)
+            ->call('save')
+            ->assertHasErrors(['image' => 'max'])
+            ->assertSeeHtml(__('validation.max.file', [
+                'attribute' => 'image',
+                'max' => '2048',
+            ]));
+        ;
     }
 
     /** @test */

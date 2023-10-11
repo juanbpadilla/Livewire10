@@ -3,12 +3,12 @@
 namespace App\Livewire;
 
 use App\Models\Article;
+use Livewire\Component;
+use Illuminate\Support\Str;
+use Livewire\WithFileUploads;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
-use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class ArticleForm extends Component
 {
@@ -21,7 +21,10 @@ class ArticleForm extends Component
     protected function rules(): array
     {
         return [
-            'image' => [],
+            'image' => [
+                Rule::requiredIf(! $this->article->image),
+                Rule::when($this->image, ['image', 'max:2048'])
+            ],
             'article.title' => ['required', 'min:4'],
             'article.slug' => [
                 'required',
@@ -50,6 +53,7 @@ class ArticleForm extends Component
     public function save(): void
     {
         $this->validate();
+
         if($this->image) {
             $this->article->image = $this->uploadImage();
         }
