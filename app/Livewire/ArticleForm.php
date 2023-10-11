@@ -45,7 +45,7 @@ class ArticleForm extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function updatedArticleTitle($title)
+    public function updatedArticleTitle($title): void
     {
         $this->article->slug = Str::slug($title);
     }
