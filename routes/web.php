@@ -21,7 +21,7 @@ Route::get('/blog/{article}', ArticleShow::class)
     ->name('articles.show')
     ->middleware('auth');
 
-Route::get('/blog/{article}/edit', ArticleForm::class)
+Route::get('/blog/{article:id}/edit', ArticleForm::class)
     ->name('articles.edit')
     ->middleware('auth');
 
