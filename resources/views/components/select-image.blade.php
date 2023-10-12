@@ -2,7 +2,7 @@
 
 <div x-data="{ focused: false }" class="relative">
     @if($image instanceof Livewire\Features\SupportFileUploads\TemporaryUploadedFile)
-        <x-danger-button wire:click="$set('{{$id}}','')" class="absolute bottom-2 right-2">
+        <x-danger-button wire:click="clearImage('{{$id}}')" class="absolute bottom-2 right-2">
             {{ __('Change Image') }}
         </x-danger-button>
         <img src="{{ $image->temporaryUrl() }}" class="border-2 rounded" alt="">

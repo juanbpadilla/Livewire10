@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Article;
-use App\Models\Category;
 use Livewire\Component;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
@@ -18,6 +18,8 @@ class ArticleForm extends Component
     public Article $article;
 
     public $image;
+
+    public $newCategory;
 
     public $showCategoryModal = false;
 
@@ -39,12 +41,40 @@ class ArticleForm extends Component
                 'required',
                 Rule::exists('categories', 'id')
             ],
+            'newCategory.name' => [],
+            'newCategory.slug' => [],
         ];
+    }
+
+    public function openCategoryForm()
+    {
+        $this->newCategory = new Category;
+        $this->showCategoryModal = true;
+    }
+
+    public function closeCategoryForm()
+    {
+        $this->newCategory = new Category;
+        $this->showCategoryModal = false;
+    }
+
+    public function saveNewCategory()
+    {
+        $this->newCategory->save();
+        $this->article->category_id = $this->newCategory->id;
+        $this->closeCategoryForm();
+    }
+
+    public function clearImage($fieldName)
+    {
+        $this->$fieldName = false;
+        $this->clearValidation($fieldName); // Borra los errores de validación para el campo 'image'
     }
 
     public function mount(Article $article): void
     {
         $this->article = $article;
+        $this->newCategory = new Category;
     }
 
     public function updated($propertyName): void
@@ -55,6 +85,11 @@ class ArticleForm extends Component
     public function updatedArticleTitle($title): void
     {
         $this->article->slug = Str::slug($title);
+    }
+
+    public function updatedNewCategoryName($name): void
+    {
+        $this->newCategory->slug = Str::slug($name);
     }
 
     public function save(): void

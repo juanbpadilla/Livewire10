@@ -1,6 +1,6 @@
 @props([
     'disabled' => false,
-    'placeholder' => 'select',
+    'placeholder' => 'Select',
     'options' => []
 ])
 
