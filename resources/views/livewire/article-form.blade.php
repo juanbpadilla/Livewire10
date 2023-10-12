@@ -16,7 +16,6 @@
             <x-slot name="form">
                 <div class="col-span-6 sm:col-span-4">
                     <x-select-image wire:model.live="image" :image="$image" :existing="$article->image"/>
-
                     <x-input-error for="image" class="mt-2" />
                 </div>
                 <div class="col-span-6 sm:col-span-4">
