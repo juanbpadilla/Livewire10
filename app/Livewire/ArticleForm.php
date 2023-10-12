@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Article;
+use App\Models\Category;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
@@ -32,6 +33,7 @@ class ArticleForm extends Component
                 Rule::unique('articles', 'slug')->ignore($this->article)
             ],
             'article.content' => ['required'],
+            'article.category_id' => [],
         ];
     }
 
@@ -67,7 +69,9 @@ class ArticleForm extends Component
 
     public function render()
     {
-        return view('livewire.article-form');
+        return view('livewire.article-form', [
+            'categories' => Category::pluck('name', 'id')
+        ]);
     }
 
     /**
