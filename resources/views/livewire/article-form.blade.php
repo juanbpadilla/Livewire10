@@ -48,7 +48,9 @@
                         <x-input-error for="article.content" class="mt-2" />
                     </div>
                     <x-slot name="actions">
-                        <x-danger-button wire:click="$set('showDeleteModal', true)" class="mr-auto">{{ __('Delete') }}</x-danger-button>
+                        @if($this->article->exists)
+                            <x-danger-button wire:click="$set('showDeleteModal', true)" class="mr-auto">{{ __('Delete') }}</x-danger-button>
+                        @endif
                         <x-button>
                             {{ __('Save') }}
                         </x-button>
@@ -57,7 +59,7 @@
             </x-form-section>
         </div>
     </div>
-
+    @if($this->article->exists)
     <x-confirmation-modal wire:model="showDeleteModal">
         <x-slot name="title">{{ __('Are you sure?') }}</x-slot>
         <x-slot name="content">Do you want delete the article: {{ $this->article->title }}</x-slot>
@@ -66,7 +68,7 @@
             <x-danger-button wire:click="delete">{{ __('Confirm') }}</x-danger-button>
         </x-slot>
     </x-confirmation-modal>
-
+    @endif
     <x-modal wire:model.live="showCategoryModal">
         <form wire:submit="saveNewCategory">
             <div class="px-6 py-3">
