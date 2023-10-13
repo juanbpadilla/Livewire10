@@ -23,6 +23,8 @@ class ArticleForm extends Component
 
     public $showCategoryModal = false;
 
+    public $showDeleteModal = false;
+
     protected function rules(): array
     {
         return [
@@ -120,6 +122,13 @@ class ArticleForm extends Component
         session()->flash('status', __('Artícle saved.'));
 
         $this->redirectRoute('articles.index');
+    }
+
+    public function delete()
+    {
+        $this->article->delete();
+
+        $this->redirect('/');
     }
 
     public function render()
