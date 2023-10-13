@@ -32,7 +32,7 @@
                     <div class="col-span-6 sm:col-span-4">
                         <x-label for="category_id" :value="__('Category')"/>
                         <div class="flex space-x-2 mt-1">
-                            <x-select wire:model.live="article.category_id" :options="$categories" id="category_id" :placeholder="__('Select category')" class="block w-full" />
+                            <x-select wire:model.pluck="article.category_id" :category="$article->category_id" :options="$categories" id="category_id" :placeholder="__('Select category')" class="block w-full" />
                             <x-secondary-button wire:click="openCategoryForm" class="!p-2.5">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>

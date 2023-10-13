@@ -36,13 +36,19 @@ class ArticleForm extends Component
                 'alpha_dash:',
                 Rule::unique('articles', 'slug')->ignore($this->article)
             ],
-            'article.content' => ['required'],
             'article.category_id' => [
                 'required',
                 Rule::exists('categories', 'id')
             ],
-            'newCategory.name' => [],
-            'newCategory.slug' => [],
+            'article.content' => ['required'],
+            'newCategory.name' => [
+                Rule::requiredIf($this->showCategoryModal),
+                Rule::unique('categories', 'name')
+            ],
+            'newCategory.slug' => [
+                Rule::requiredIf($this->showCategoryModal),
+                Rule::unique('categories', 'slug')
+            ],
         ];
     }
 
@@ -54,14 +60,23 @@ class ArticleForm extends Component
 
     public function closeCategoryForm()
     {
-        $this->newCategory = new Category;
         $this->showCategoryModal = false;
+        $this->newCategory = new Category;
+        $this->clearValidation('newCategory.*');
     }
 
     public function saveNewCategory()
     {
+
+        $this->validateOnly('newCategory.name');
+        $this->validateOnly('newCategory.slug');
+
         $this->newCategory->save();
-        $this->article->category_id = $this->newCategory->id;
+
+        $key = $this->newCategory->id;
+
+        $this->article->category_id = $key;
+
         $this->closeCategoryForm();
     }
 
@@ -71,15 +86,15 @@ class ArticleForm extends Component
         $this->clearValidation($fieldName); // Borra los errores de validación para el campo 'image'
     }
 
+    public function updatedNewCategoryName($name): void
+    {
+        $this->newCategory->slug = Str::slug($name);
+    }
+
     public function mount(Article $article): void
     {
         $this->article = $article;
         $this->newCategory = new Category;
-    }
-
-    public function updated($propertyName): void
-    {
-        $this->validateOnly($propertyName);
     }
 
     public function updatedArticleTitle($title): void
@@ -87,9 +102,9 @@ class ArticleForm extends Component
         $this->article->slug = Str::slug($title);
     }
 
-    public function updatedNewCategoryName($name): void
+    public function updated($propertyName): void
     {
-        $this->newCategory->slug = Str::slug($name);
+        $this->validateOnly($propertyName);
     }
 
     public function save(): void
