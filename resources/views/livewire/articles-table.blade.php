@@ -61,6 +61,9 @@
                             <!-- More people... -->
                             </tbody>
                         </table>
+                        <div class="px-4 py-3 bg-gray-50 border-t dark:bg-gray-800 dark:border-gray-700">
+                            {{ $articles->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
