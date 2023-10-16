@@ -26,7 +26,8 @@ class ArticleDeleteModal extends Component
 
         $this->article->delete();
 
-        session()->flash('status', __('Artícle deleted.'));
+        session()->flash('flash.bannerStyle', 'danger');
+        session()->flash('flash.banner', __('Artícle deleted.'));
 
         $this->redirect(route('articles.index'));
     }

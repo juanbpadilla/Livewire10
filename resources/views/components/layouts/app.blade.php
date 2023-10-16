@@ -23,6 +23,9 @@
     <body class="font-sans antialiased">
         <x-banner />
 
+        @if(session('status'))
+            <div>{{ session('status') }}</div>
+        @endif
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @livewire('navigation-menu')
 
