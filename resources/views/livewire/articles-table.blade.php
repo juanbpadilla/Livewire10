@@ -24,8 +24,16 @@
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-700 dark:border-gray-700">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-center sm:text-left text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-100 uppercase tracking-wider">Title</th>
-                                <th scope="col" class="px-6 py-3 text-center sm:text-left text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-100 whitespace-nowrap uppercase tracking-wider">Created at</th>
+                                <th scope="col" class="px-6 py-3 text-center sm:text-left text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-100 uppercase tracking-wider">
+                                    <x-title-sort-button wire:click="sortBy('title')" :field="__('title')" :sortField="$sortField" :sortDirection="$sortDirection" >
+                                        {{ __('Title') }}
+                                    </x-title-sort-button>
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-center sm:text-left text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-100 whitespace-nowrap uppercase tracking-wider">
+                                    <x-title-sort-button wire:click="sortBy('created_at')" :field="__('created_at')" :sortField="$sortField" :sortDirection="$sortDirection">
+                                        {{ __('Created At') }}
+                                    </x-title-sort-button>
+                                </th>
                                 <th scope="col" class="relative px-6 py-3">
                                     <span class="sr-only">Edit</span>
                                 </th>
