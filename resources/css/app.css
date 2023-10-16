@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/*Para evitar el pestañeo al mostrar u ocultar objetos con alphine*/
 [x-cloak] {
     display: none;
 }

@@ -102,7 +102,7 @@ class ArticleFormTest extends TestCase
             ->set('article.title', 'Updated title')
             ->set('article.slug', 'updated-slug')
             ->call('save')
-            ->assertSessionHas('status')
+            ->assertSessionHas('flash.banner')
             ->assertRedirect(route('articles.index'));
 
         $this->assertDatabaseCount('articles', 1);
@@ -134,7 +134,7 @@ class ArticleFormTest extends TestCase
         Livewire::actingAs($user)->test('article-form', ['article' => $article])
             ->set('image', $newImage)
             ->call('save')
-            ->assertSessionHas('status')
+            ->assertSessionHas('flash.banner')
             ->assertRedirect(route('articles.index'));
 
         Storage::disk('public')

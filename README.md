@@ -1,4 +1,7 @@
-# Guía para instalar el proyecto
+# Aplicación Laravel 10 con Livewire 3 y Jetstream 4
+
+
+## Guía para instalar el proyecto
 Este es un proyecto de prueba realizado en el curso **Aprende Livewire desde cero**
 
 1. Descarga el repositorio
@@ -20,3 +23,8 @@ Este es un proyecto de prueba realizado en el curso **Aprende Livewire desde cer
 11. Ejecuta `npm install`
 12. Ejecuta `npm run dev` (para desarrollo) o `npm run prod` (para producción)
 
+## Notas para desarrollo y tests
+- Necesitamos crear otra base de datos para las pruebas con el nombre especificado en archivo phpunit.xml
+- En caso de no tener el archivo de configuración de Livewire (config/livewire.php) podemos publicarlo desde vendor ejecutando `php artisan livewire:publish --config`
+- En caso de no contar con la carpeta public/storage debemos generarla (solo si es necesario) con `php artisan storage:link`
+- Si la miniatura de la imagen no se muestra en la tabla es por que no modificamos APP_URL en el archivo .env con la dirección correcta del proyecto ej: http://livewire10.test
